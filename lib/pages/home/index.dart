@@ -36,7 +36,10 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.grey[400],
         currentIndex: _currentIndex,
         items: List.from(_tabs.map((element) =>
-          BottomNavigationBarItem(icon: Icon(element['icon']), title: Text(element['name']))
+          BottomNavigationBarItem(
+            icon: Icon(element['icon']),
+            title: Text(element['name'])
+          )
         )),
         onTap: (int index) {
           setState(() {
@@ -47,9 +50,9 @@ class _HomePageState extends State<HomePage> {
       body: _tabs[_currentIndex]['page'],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TestPage(title: 'Test', content: DateTime.now().toString()))
-          );
+          Navigator.push(context,  MaterialPageRoute(builder: (context) =>
+              TestPage(title: 'Test', content: DateTime.now().toString())
+          ));
         },
         tooltip: 'Increment',
         backgroundColor: Colors.black,
