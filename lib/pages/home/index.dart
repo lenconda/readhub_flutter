@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:readhub/pages/home/topics/index.dart';
 import 'package:readhub/pages/home/technology/index.dart';
 import 'package:readhub/pages/home/developers/index.dart';
-import '../test/index.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({ Key key, this.title }): super(key: key);
@@ -47,17 +46,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      body: _tabs[_currentIndex]['page'],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,  MaterialPageRoute(builder: (context) =>
-              TestPage(title: 'Test', content: DateTime.now().toString())
-          ));
-        },
-        tooltip: 'Increment',
-        backgroundColor: Colors.black,
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: _tabs[_currentIndex]['page'],// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

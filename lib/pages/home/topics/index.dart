@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:readhub/pages/home/topics/components/topic_card/index.dart';
 import 'package:readhub/components/data_list/index.dart';
 import 'package:readhub/models/topic.dart';
+import 'package:readhub/pages/topic_detail/index.dart';
 
 class TopicsPage extends StatefulWidget {
   TopicsPage(Key key): super(key: key);
@@ -13,7 +14,7 @@ class TopicsPage extends StatefulWidget {
 
 class _TopicsPageState extends State<TopicsPage> {
   final Dio _dio = new Dio();
-  final Widget Loading = TopicCard(loading: true);
+  final Widget Loading = TopicCardLoading();
   List<Topic> _topicList = [];
 
   @override
@@ -44,12 +45,20 @@ class _TopicsPageState extends State<TopicsPage> {
   List<Widget> _generateListItems() {
     List<Widget> currentTopics = _topicList.map((element) {
       return TopicCard(
-          id: element.id,
-          title: element.title,
-          summary: element.summary,
-          order: element.order,
-          createdAt: element.createdAt,
-          timeline: element.timeline
+        id: element.id,
+        title: element.title,
+        summary: element.summary,
+        order: element.order,
+        createdAt: element.createdAt,
+        timeline: element.timeline,
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (content) {
+            return TopicDetailPage(
+              title: element.title,
+              content: 'oiejfo',
+            );
+          }));
+        },
       );
     }).toList();
     return currentTopics;

@@ -24,7 +24,6 @@ class Topic {
     createdAt = json['createdAt'];
     timeline = json['timeline'];
     order = json['order'];
-    loading = json['loading'] == null ? false : json['loading'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,8 +33,7 @@ class Topic {
       'summary': summary,
       'createdAt': createdAt,
       'timeline': timeline,
-      'order': order,
-      'loading': loading
+      'order': order
     };
   }
 }

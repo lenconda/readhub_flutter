@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
 
-class DataList<T> extends StatefulWidget {
-  DataList({
+class RefreshContainer extends StatefulWidget {
+  RefreshContainer({
     Key key,
     this.refreshThreshold = 50,
-    this.loadmoreThreshold = 50,
     @required this.onRefresh,
-    @required this.onLoadmore,
     this.onInitialize = null,
-    @required this.items,
-    @required this.loadmoreComponent,
+    @required this.children,
     @required this.refreshComponent,
-    this.initializeComponent = null
+    @required this.initializeComponent,
   })
-      : assert(loadmoreThreshold >= 0),
-        assert(refreshThreshold >= 0),
+      : assert(refreshThreshold >= 0),
         super(key: key);
 
   final double refreshThreshold;
-  final double loadmoreThreshold;
   final Function onRefresh;
-  final Function onLoadmore;
   final Function onInitialize;
-  final List<T> items;
-  final T loadmoreComponent;
-  final T refreshComponent;
-  final T initializeComponent;
+  final List children;
+  final Widget refreshComponent;
+  final Widget initializeComponent;
 
   @override
-  _DataListState createState() => _DataListState();
+  _RefreshContainerState createState() => _RefreshContainerState();
 }
 
-class _DataListState extends State<DataList> {
-  bool _initializing = true;
+class _RefreshContainerState extends State<RefreshContainer> {
+  bool _initializing = false;
   bool _refreshing = false;
   bool _scrolling = false;
   final ScrollController _scrollController = ScrollController();
@@ -43,20 +36,13 @@ class _DataListState extends State<DataList> {
 
     _scrollController.addListener(() {
       double currentPosition = _scrollController.position.pixels;
-      double maximumPosition = _scrollController.position.maxScrollExtent;
+      print(currentPosition);
 
-      if (currentPosition <= 0 - widget.refreshThreshold
-          && !_scrolling
-          && !_refreshing
-      ) {
+      if (currentPosition <= 0 - widget.refreshThreshold && !_scrolling && !_refreshing) {
         setState(() { _refreshing = true; });
         widget.onRefresh().then((result) {
           setState(() { _refreshing = false; });
         });
-      }
-
-      if (currentPosition == maximumPosition && !_scrolling && !_refreshing) {
-        widget.onLoadmore();
       }
     });
 
@@ -72,11 +58,7 @@ class _DataListState extends State<DataList> {
   }
 
   List<Widget> _generateListItems() {
-    List<Widget> currentListItems = widget.items;
-
-    if (currentListItems[currentListItems.length - 1] != widget.loadmoreComponent) {
-      currentListItems.add(widget.loadmoreComponent);
-    }
+    List<Widget> currentListItems = widget.children;
 
     if (_refreshing) {
       currentListItems.insert(0, widget.refreshComponent);
@@ -96,11 +78,15 @@ class _DataListState extends State<DataList> {
               onPointerUp: (event) {
                 setState(() { _scrolling = false; });
               },
-              child: ListView(
-                children: _generateListItems(),
-                cacheExtent: 100,
-                physics: BouncingScrollPhysics(),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16),
                 controller: _scrollController,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _generateListItems(),
+                  )
+                )
               ),
             )
           : widget.initializeComponent
