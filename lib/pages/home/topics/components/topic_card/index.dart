@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:common_utils/common_utils.dart';
-import '../loading_icon/index.dart';
+import 'package:readhub/components/loading_icon/index.dart';
 
 class TopicCard extends StatelessWidget {
   TopicCard({

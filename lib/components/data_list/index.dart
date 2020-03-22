@@ -51,7 +51,6 @@ class _DataListState extends State<DataList> {
           && !_refreshing
       ) {
         setState(() { _refreshing = true; });
-        print('refreshing: ${_refreshing}');
         widget.onRefresh().then((result) {
           setState(() { _refreshing = false; });
         });
@@ -62,7 +61,6 @@ class _DataListState extends State<DataList> {
           && !_refreshing
       ) {
         setState(() { _fetching = true; });
-        print('fetching: ${_fetching}');
         widget.onLoadmore().then((result) {
           setState(() { _fetching = false; });
         });
